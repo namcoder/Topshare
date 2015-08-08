@@ -1,0 +1,6 @@
+
+
+<?php $__env->startSection('content'); ?>
+		<h3 class="alert alert-danger text-center">404 NOT FOUND</h3>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('frontend.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

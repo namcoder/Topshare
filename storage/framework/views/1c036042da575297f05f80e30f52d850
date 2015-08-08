@@ -1,0 +1,230 @@
+
+
+<?php $__env->startSection('title'); ?>
+	Edit User: <?php echo e($info->name); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<?php $userCat = json_decode($info->userblog->blog_categories); ?>
+<form role="form" method="post">
+	<div class="col-lg-6">
+		<div class="main-box">
+			<header class="main-box-header clearfix">
+				<h2>Edit user</h2>
+			</header>
+			
+			<div class="main-box-body clearfix">
+				
+					<div class="form-group">
+						<label for="">Email</label>
+						<input type="email" disabled class="form-control" id="email" name="email" placeholder="Email"   value="<?php echo e($info->email); ?>">
+					</div>
+					<div class="form-group">
+						<label for="">Name</label>
+						<input type="text" class="form-control" id="name" name="name" placeholder="Name"  required value="<?php echo e($info->name); ?>">
+					</div>
+					
+					<div class="form-group">
+						<label for="">Password</label>
+						<input type="password" class="form-control" id="pass" name="password" placeholder="Password"   >
+					</div>
+					<div class="form-group">
+						<label for="">Re-type Password</label>
+						<input type="password" class="form-control" id="pass2"  placeholder="Password"  >
+					</div>
+					
+					<div class="form-group">
+						<label for="">Address</label>
+						<input type="text" class="form-control" id="address" name="address" placeholder="Address"  required value="<?php echo e($info->address); ?>">
+					</div>
+					<div class="form-group">
+						<label for="">Zipcode</label>
+						<input type="text" class="form-control" id="zipcode" name="zipcode" placeholder="Zipcode"  required value="<?php echo e($info->zipcode); ?>">
+					</div>
+					<div class="form-group">
+						<label for="">City</label>
+						<input type="text" class="form-control" id="city" name="city" placeholder="City"  required value="<?php echo e($info->city); ?>">
+					</div>
+					<div class="form-group">
+						<label for="">Phone number</label>
+						<input type="text" class="form-control" id="phone" name="phone" placeholder="Phone"  required value="<?php echo e($info->phone); ?>">
+					</div>
+					<div class="form-group">
+						<label for="">CPR</label>
+						<input type="text" class="form-control" id="cpr" name="cpr" placeholder="cpr"  required value="<?php echo e($info->cpr); ?>">
+					</div>
+					<div class="form-group">
+						<label>Role</label>
+						<select class="form-control" name="role" required>
+							<?php foreach($roles as $role): ?>
+							<option value="<?php echo e($role->id); ?>" <?php if($role->id==$info->role): ?> selected <?php endif; ?>><?php echo e($role->name); ?></option>
+							<?php endforeach; ?>
+						</select>
+					</div>
+			
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-6">
+		<div class="main-box">
+			<header class="main-box-header clearfix">
+				<h2>Blog</h2>
+			</header>
+			<div class="main-box-body clearfix">
+				<div class="form-group">
+					<label for="">Blog name</label>
+					<input type="text" class="form-control" id="blogname" name="blogname" placeholder="blogname"  required value="<?php echo e($info->userblog->blogname); ?>">
+				</div>
+				<div class="form-group">
+					<label for="">Blog URL</label>
+					<input type="text" class="form-control" id="blogurl" name="blogurl" placeholder="blogurl"  required value="<?php echo e($info->userblog->domain); ?>">
+				</div>
+			 	<div class="form-group">
+			    	<label class="control-label" for="">Blog Language</label>
+			    	<select name="bloglang" id="bloglang_reg" class="form-control" required>
+				    	<option value="">Select language</option>
+				    	<?php foreach($langs as $l): ?>
+				    		<option value="<?php echo e($l->id); ?>" <?php if($info->userblog->bloglang==$l->id): ?> selected <?php endif; ?>><?php echo e($l->name); ?></option>
+				    	<?php endforeach; ?>
+			    	</select>
+			 	</div>
+		 	 	<div class="form-group">
+		 	 	  <div class="col-sm-12">
+		 	 	   	<div class="checkbox">
+		 	 	   	  <div class="row changeCat">
+	 		 	   	  	<?php foreach($cats as $cat): ?>
+	 		 	   	  		<div class="col-sm-5">
+	 		 	   	  			<label class="control-label">
+	 		 	   	  			  <input type="checkbox" class="category" name="category[]" value="<?php echo e($cat->id); ?>" <?php if(in_array($cat->id,$userCat)): ?> checked <?php endif; ?>> <?php echo e($cat->name); ?>
+
+	 		 	   	  			</label>
+	 		 	   	  		</div>
+	 		 	   	  	<?php endforeach; ?>
+		 	 	   	  </div>
+		 	 	   	  <div class="row">
+		 	 	   	  	<div class="alert alert-danger error_cate hide"><?php echo e(trans('profile.Please_select_Blog_category')); ?></div>
+		 	 	   	  </div>
+		 	 	   	</div>
+		 	 	  </div>
+		 	 	</div>
+		 	 	<div class="form-group">
+		 	 		<?php for($i=0;$i<$info->userblog->star;$i++): ?>
+		 	 			<?php if($i<5): ?>
+		 	 				<img src="<?php echo e(asset('public/frontend/img/star.png')); ?>" alt="">
+		 	 			<?php endif; ?>
+		 	 		<?php endfor; ?>
+		 	 		<?php 
+		 	 				if($info->userblog->star > 5){
+		 	 					$num_real_star = 5;
+		 	 				}
+		 	 				else{
+		 	 					$num_real_star = $info->userblog->star;
+		 	 				}
+		 	 				if($num_real_star<0){
+		 	 					$num_real_star = 0;
+		 	 				}
+		 	 				$num_grey_star = 5-$num_real_star;
+		 	 		?>
+		 	 		<?php for($i=0;$i<$num_grey_star;$i++): ?>
+		 	 			<img src="<?php echo e(asset('public/frontend/img/star_grey.png')); ?>" alt="">
+		 	 		<?php endfor; ?>
+		 	 	</div>
+		 	 	<div class="form-group">
+		 	 		<ul>
+		 	 			<?php if($info->userblog->domain_age==0): ?>
+		 	 				<li>Domain age: <strong>Unknown</strong></li>
+		 	 			<?php else: ?>
+		 	 				<?php if($info->userblog->domain_age>1): ?>
+		 	 					<li>Domain age: <strong><?php echo e($info->userblog->domain_age); ?> </strong> years</li>
+		 	 				<?php else: ?>
+		 	 					<li>Domain age: <strong><?php echo e($info->userblog->domain_age); ?> </strong> year</li>
+		 	 				<?php endif; ?>
+		 	 			<?php endif; ?>
+		 	 			
+		 	 			
+		 	 			<li>Have selected: <strong><?php echo e(count($userCat)); ?></strong> category</li>
+		 	 			<?php if($info->userblog->domain_type==0): ?>
+		 	 				<li>Have used <strong>personal</strong> domain</li>
+		 	 			<?php else: ?>
+		 	 				<li>Have used <strong>blogspot</strong> domain</li>
+		 	 			<?php endif; ?>
+		 	 			<li>Number of visitors per month: <strong><?php echo e($info->userblog->visitor); ?></strong></li>
+		 	 			<li>Number of inbound links: <strong><?php echo e($info->userblog->inbound_link); ?></strong></li>
+		 	 			<li>Page rank: <strong><?php echo e($info->userblog->page_rank); ?></strong></li>
+		 	 			<li>Number of domain in domain IP: <strong><?php echo e($info->userblog->domain_in_ip); ?></strong></li>
+		 	 			<?php if($info->userblog->outbound_link_more==1): ?>
+		 	 				<li>Domain have outbound link <strong>more</strong> than inbound link in</li>
+		 	 			<?php endif; ?>
+		 	 		</ul>
+		 	 	</div>
+			 	<div class="form-group">
+			 		<button type="submit" class="btn btn-success">Save</button>
+					<a href="<?php echo e(url('admin/users/list')); ?>" class="btn btn-default">Cancel</a>
+			 	</div>
+			</div>
+		</div>
+	</div>
+</form>
+<script>
+	/// change Cat language by select 
+	$('#bloglang_reg').change(function(){
+		var id = $(this).val();
+		$.ajax({
+			type:'get',
+			url:'<?php echo e(url("ajax-get-categories")); ?>',
+			data:{id:id},
+			success:function(x){
+				$('.changeCat').html(x);
+			}
+		});
+	});
+	$("form").validate({
+		errorClass:'text-danger',
+		errorPlacement: function(error, element) {
+			element.parent().addClass('has-error') ;
+			error.insertAfter(element);
+		},
+		success: function(label) {
+		   label.parent().removeClass('has-error') ;
+		   label.remove();
+		 },
+		 submitHandler: function(form){
+			var pass = $('#pass').val();
+			var pass2 = $('#pass2').val();
+			if(pass!=pass2){
+				block_error_input($('#pass'),'Password not match, please type again',false);
+				$('#pass2').val('');
+				return false;
+			}
+			else{
+				block_ok_input($('#pass'));
+			}
+	 		var select_cat = $('.category:checked').length;
+	 	 	if(select_cat==0){
+	 	 		$('.error_cate').removeClass('hide');
+	 			return false;
+	 	 	}
+	 	 	else{
+	 	 		$('.error_cate').addClass('hide');
+	 	 	}
+		 	var val = [];
+		 	$('.category:checked').each(function(i){
+		 		val[i] = $(this).val();
+		 	});
+			var data = $("form").serialize();
+			var token = '<?php echo e(csrf_token()); ?>';
+			$.ajax({
+				type:'post',
+				url:'<?php echo e(url("admin/users/edit")); ?>/<?php echo e($info->id); ?>',
+				data:{data:data,_token:token},
+				success:function(x){
+					form_action_ok($('form'),'Edit User successful');
+				}
+			});
+			return false;
+		 }
+	});
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

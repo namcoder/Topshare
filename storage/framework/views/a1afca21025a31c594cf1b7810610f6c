@@ -1,0 +1,51 @@
+<?php $__env->startSection('title'); ?>
+	Translate
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+
+	<div class="col-lg-12">
+	<?php if(Session::has('ok')): ?>
+		<p class="alert alert-success"><?php echo e(Session::get('ok')); ?></p>
+	<?php endif; ?>
+		<div class="main-box">
+			<!-- <p class="text-center"><span class="text-danger"><strong>IMPORTANT:</strong> DO NOT using <span class="text-danger"> &nbsp;&nbsp;&nbsp;'&nbsp;&nbsp;&nbsp; </span> key for translate</span></p> -->
+			<header class="main-box-header clearfix">
+				<h2>Translate</h2>
+			</header>
+			
+			<div class="main-box-body clearfix">
+			<form action="" method="post">
+				<table class="table table-bordered">
+					<tr>
+						<td></td>
+						<th width="460px">English</th>
+						<th><?php echo e($lang_name->name); ?></th>
+					</tr>
+					<?php foreach($rows as $key => $r): ?>
+					<tr>
+						<td><input type="hidden" name="key[]" value="<?php echo e($r[0]); ?>"></td>
+						<td><?php echo e($r[1]); ?></td>
+						<?php if(isset($rows_lang[$key][1])): ?>
+						<td><input type="text" class="form-control" name="tranfield[]" value="<?php echo e(trim($rows_lang[$key][1])); ?>"></td>
+						<?php else: ?>
+						<td><input type="text" class="form-control" name="tranfield[]"></td>
+						<?php endif; ?>
+					</tr>
+					<?php endforeach; ?>
+					<tr>
+						<td colspan="3">
+							<div class="pull-right">
+								<input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>">
+								<input type="submit" class="btn btn-primary" value="Save">
+								 <a href="<?php echo e(url('admin/languages/translate')); ?>/<?php echo e(Request::segment(4)); ?>" class="btn btn-default">Cancel</a>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</form>			
+			</div>
+		</div>
+	</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

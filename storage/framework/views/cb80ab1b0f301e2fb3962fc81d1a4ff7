@@ -1,0 +1,17 @@
+<div class="col-sm-12">
+	<h4 class="text-success">Done</h4>
+	<script>
+		/// append value to curren User information form
+		$(document).ready(function(){
+			$('#evaluate').val('1');
+			$('#domain_age').val('<?php echo e($data["domain_age"]); ?>');
+			$('#domain_type').val('<?php echo e($data["domain_type"]); ?>');
+			$('#blog_categories').val('<?php echo e($data["category"]); ?>');
+			$('#blogname_save').val('<?php echo e($data["blogname"]); ?>');
+			$('#domain_save').val('<?php echo e($data["domain"]); ?>');
+			$('#star').val('<?php echo e($data["star"]); ?>');
+			$('#lang_code').val('<?php echo e($data["lang_code"]); ?>');
+			$('#report_id').val('<?php echo e($data["report_id"]); ?>');
+		});
+	</script>
+</div>

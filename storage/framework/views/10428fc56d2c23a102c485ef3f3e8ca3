@@ -1,0 +1,46 @@
+<style>
+	span.stars, span.stars span {
+	    background: url(<?php echo e(asset('public/frontend/img/stars.png')); ?>) 0 -15px repeat-x;
+	    width: 160px;
+	    height: 15px;
+	    display:inline-block
+	}
+
+	span.stars span {
+	    background-position: 0 0;
+	}
+</style>
+
+<?php if(Auth::user()->userblog->status!=0): ?>
+<?php 
+	$half_star = (Auth::user()->userblog->star/2)*16;
+ ?>
+		<span class="stars">
+		    <span style="width:<?php echo e($half_star); ?>px"></span>
+		</span>
+
+		<?php if($full!='false'): ?>
+			<div class="clearfix"></div>
+			<div class="text-left" style="margin-top:20px">
+				<?php 
+					$domainAge = explode(',', Auth::user()->userblog->domain_age);
+				 ?>
+				<ul>
+					<li>Domain age: <strong><?php echo e($domainAge[0]); ?></strong> year <strong><?php echo e($domainAge[1]); ?></strong> months</li>
+					<li>Inbound link: <strong><?php echo e(Auth::user()->userblog->inbound_link); ?></strong></li>
+					<li>Stars achieved: <strong><?php echo e(Auth::user()->userblog->star/2); ?></strong></li>
+				</ul>
+			</div>
+			
+		<?php endif; ?>
+	
+<?php else: ?>
+		<i class="text-muted">Blog under evaluation, this can take a while, please have patience</i>
+<?php endif; ?>
+<script>
+	$.fn.stars = function() {
+	    return $(this).each(function() {
+	        $(this).html($('<span />').width(Math.max(0, (Math.min(5, parseFloat($(this).html())))) * 16));
+	    });
+	}
+</script>

@@ -1,0 +1,195 @@
+<?php $__env->startSection('content'); ?>
+<?php $link = json_decode($info->assignment->img_link) ?>
+	<div class="row">
+		<div class="col-sm-12">
+			<table class="table table-bordered">
+				<tr>
+					<th width="200px">Assignment</th>
+					<td><?php echo e($info->assignment->customer_name); ?></td>
+				</tr>
+				<tr>
+					<th>Keyword</th>
+					<td><?php echo e($info->assignment->keyword); ?></td>
+				</tr>
+				<tr>
+					<th>Minimum wordcount</th>
+					<td><?php echo e($info->assignment->minimum_wordcount); ?></td>
+				</tr>
+				<tr>
+					<th>Link</th>
+					<td>
+						<?php if($link): ?>
+							<table class="table table-bordered">
+							<?php foreach($link as $l): ?>
+								<tr>
+									<td width="150px">
+										<?php if($l->img!=null): ?>
+										<a href="<?php echo e($l->img); ?>" target="_blank" download><img src="<?php echo e($l->img); ?>" alt="" class="img-responsive"></a>
+										<?php else: ?>
+											<i>No Image</i>
+										<?php endif; ?>
+									</td>
+									<td style="vertical-align: middle;">
+										<p>Link: <a href="<?php echo e($l->link); ?>" target="_blank" ><?php echo e(rtrim($l->link, "/")); ?></a></p>
+										<?php if($l->anchor_text): ?>
+										<p>Anchor text: <?php echo e($l->anchor_text); ?></p>
+										<?php endif; ?>
+									</td>
+								</tr>	
+							<?php endforeach; ?>
+							</table>
+						<?php endif; ?>
+					</td>
+				</tr>
+				<?php if($info->status<3): ?>
+				<tr>
+					<th>Time to report</th>
+					<td>
+						<strong><?php echo e($time_to_report); ?></strong> minutes <br>
+						You have <strong><?php echo e(round(((($info->minute_to_report_assignment*60) + strtotime($info->created_at))-time())/60,1)); ?> </strong>minutes left
+					</td>
+				</tr>
+				<?php endif; ?>
+				<?php if($info->status==0): ?>
+					<tr>
+						<th>
+							Status
+						</th>
+						<td>
+							<?php echo $__env->make('frontend.profile.assignment-status',['no'=>$info->status], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+						</td>
+					</tr>
+				<?php elseif($info->status==1): ?>
+					<tr>
+						<th>
+							Status
+						</th>
+						<td>
+							<?php echo $__env->make('frontend.profile.assignment-status',['no'=>$info->status], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+						</td>
+					</tr>
+				<?php elseif($info->status==2): ?>
+					<tr>
+						<th>
+							Status
+						</th>
+						<td>
+							<?php echo $__env->make('frontend.profile.assignment-status',['no'=>$info->status], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+						</td>
+					</tr>
+					<?php elseif($info->status==3): ?>
+					<tr>
+						<th>
+							Status
+						</th>
+						<td>
+							<?php echo $__env->make('frontend.profile.assignment-status',['no'=>$info->status], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+						</td>
+					</tr>
+					
+					<?php elseif($info->status==4): ?>
+					<tr>
+						<th>
+							Status
+						</th>
+						<td>
+							<?php echo $__env->make('frontend.profile.assignment-status',['no'=>$info->status], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+						</td>
+					</tr>
+					<tr>	
+						<td colspan="2">
+							<strong>Reason:</strong>  <?php echo e($info->reason); ?>
+
+						</td>
+					</tr>
+					<tr>	
+						<td colspan="2">
+							<a href="<?php echo e(url('profile/re-completed-assignment')); ?>/<?php echo e($info->id); ?>" class="btn btn-primary">Re-Complete</a>
+						</td>
+					</tr>
+					<?php elseif($info->status==5): ?>
+					<tr>
+						<th>
+							Status
+						</th>
+						<td>
+							<?php echo $__env->make('frontend.profile.assignment-status',['no'=>$info->status], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+						</td>
+					</tr>
+				<?php endif; ?>
+					<tr>
+						<th>URL to report</th>
+						<td>
+							<form method="post"  action="<?php echo e(url('profile/completed-assignment')); ?>/<?php echo e($info->id); ?>">
+							  <div class="form-group">
+							    <input type="text" class="form-control" name="link" id="link" placeholder="Enter link" required value="<?php echo e($info->link); ?>" <?php if($info->status==3): ?> disabled <?php endif; ?>>
+							  </div>
+							  <input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>">
+							  <input type="hidden" id="user_assignment_id" value="<?php echo e($info->id); ?>">
+							  <?php if($info->status<3): ?> <button type="submit" class="btn btn-primary" id="submitbut" >Submit</button>  <?php endif; ?>
+							  <p>
+							  	<div class="three-quarters-loader loading hide"></div>
+							  </p>
+							  <p class="result-validate"></p>
+							</form>
+						</td>
+					</tr>
+			</table>
+		</div>		
+	</div>
+	<script>
+		$("form").validate({
+			rules:{
+				link:{
+					url:true
+				}
+			},
+			errorClass:'text-danger',
+			errorPlacement: function(error, element) {
+				element.parent().addClass('has-error') ;
+				error.insertAfter(element);
+			},
+			success: function(label) {
+			   label.parent().removeClass('has-error') ;
+			   label.remove();
+			 },
+			submitHandler: function(form){
+				var data = $('#link').val();
+				var user_assignment_id = $('#user_assignment_id').val();
+				$('.loading').removeClass('hide');
+				$('.result-validate').html('');
+				$.ajax({
+					type:'post',
+					dataType:'json',
+					url:'<?php echo e(url("profile/validate-user-assignment-link")); ?>',
+					data:{data:data,_token:token,user_assignment_id:user_assignment_id},
+					success:function(x){
+						if(x.statusCode==200){
+							$('.loading').addClass('hide');
+							$('.result-validate').html('<div class="alert alert-success">Thank you for your report. We will check your link and reply you soon</div>');
+							$('#submitbut').attr('disabled',true);
+							$('#link').attr('disabled',true);
+						}
+						else if(x.statusCode==500){
+							$('.loading').addClass('hide');
+							if(x.content=='not_exist'){
+								window.location.href='<?php echo e(url("profile/my-assignments")); ?>';
+								return false;
+							}
+							if(x.overtime){
+								$('#submitbut').attr('disabled',true);
+								$('#link').attr('disabled',true);
+							}
+							$('.result-validate').html('<div class="alert alert-danger">'+x.content+'</div>');
+						}
+					},
+					error:function(y){
+						$('.loading').addClass('hide');
+						$('.result-validate').html('<div class="alert alert-danger"><strong>'+data+'</strong> is not valid. Please check again</div>');
+					},
+				});
+			}
+		});
+	</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('frontend.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

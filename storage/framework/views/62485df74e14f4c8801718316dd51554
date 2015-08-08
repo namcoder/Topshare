@@ -1,0 +1,197 @@
+<?php $__env->startSection('title'); ?>
+	Assignments
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+<style>
+	
+	.plus:after{
+		content: '+'
+	}
+	tr.header .minus:after{
+		content: '-'
+	}
+</style>
+
+	<?php if(Session::has('ok')): ?>		
+		<div class="row">
+			<div class="col-sm-12">
+				<p class="alert alert-success"><?php echo e(Session::get('ok')); ?></p>
+			</div>
+		</div>
+	<?php endif; ?>
+	<div class="col-lg-12">
+	<p><a href="<?php echo e(url('admin/assignments/create')); ?>" class="btn btn-primary">Create Assignment</a></p>
+	<div class="row">
+		<div class="col-md-12">
+			<p>
+				<form class="form-inline">
+				  <div class="form-group">
+				    <label for="exampleInputName2">Status</label>
+				    <select name="" id="filterStatus" class="form-control">
+				    	<option value="open" <?php if(Request::input('status')=='open'): ?> selected <?php endif; ?>>Open</option>
+				    	<option value="closed" <?php if(Request::input('status')=='closed'): ?> selected  <?php endif; ?>>Closed</option>
+				    	<option value="all" <?php if(Request::input('status')=='all'): ?> selected <?php endif; ?>>All</option>
+				    </select>
+				  </div>
+				</form>
+			</p>
+		</div>
+	</div>
+		<div class="main-box clearfix">
+			<header class="main-box-header clearfix">
+				<h2 class="pull-left">List Assignments</h2>
+			</header>
+			<div class="main-box-body clearfix">
+				<div class="table-responsive">
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th width="40px" class="text-center"><input type="checkbox" id="select_all"></th>
+								<th><span>Customer</span></th>
+								<th><span>Status</span></th>
+								<th><span>Created at</span></th>
+							</tr>
+						</thead>
+						<tbody>
+						<?php foreach($lists as $l): ?>
+						
+							<tr class="header">
+								<td class="text-center"><input type="checkbox" name="" value="<?php echo e($l->id); ?>" class="select_all"></td>
+								<td>  <strong><span class="label label-success"><?php echo e(count($l->userassignment)); ?></span></strong> <a href="#" class="btn btn-xs btn-warning expandTr plus"></a> <a href="<?php echo e(url('admin/assignments')); ?>/<?php echo e($l->id); ?>"><?php echo e($l->customer_name); ?></a></td>
+								<td>
+									<input type="radio" class="assignStatus" value="1" alt="<?php echo e($l->id); ?>" name="statusAssign_<?php echo e($l->id); ?>" <?php if($l->status==1): ?> checked <?php endif; ?>> Open
+									<input type="radio" class="assignStatus" value="0" alt="<?php echo e($l->id); ?>" name="statusAssign_<?php echo e($l->id); ?>" <?php if($l->status==0): ?> checked <?php endif; ?>> Closed
+								</td>
+								<td>
+									<?php echo e(date('M-d-Y',strtotime($l->created_at))); ?>
+
+								</td>
+							</tr>
+							<tr style="display:none">
+							 	<td></td>
+								<td colspan="5">
+									<table class="table table-bordered">
+										<tr style="background:green;color:#fff">
+											<th>Name</th>
+											<th>Blog name</th>
+											<th>Email</th>
+											<th>Link</th>
+											<th>Status</th>
+											<th>Created at</th>
+										</tr>
+										<?php foreach($l->userassignment as $userAssign): ?>
+										<tr>
+											<td><?php echo e($l->getUserInfo($userAssign->user_id)->name); ?></td>
+											<td><?php echo e($l->getUserBlog($userAssign->user_id)->blogname); ?></td>
+											<td><a href="mailto:<?php echo e($l->getUserInfo($userAssign->user_id)->email); ?>"><?php echo e($l->getUserInfo($userAssign->user_id)->email); ?></a></td>
+											<td><a href="<?php echo e($userAssign->link); ?>" target="_blank"><?php echo e($userAssign->link); ?></a></td>
+											<td>
+												<input type="radio" class="userAssignStatus" alt="<?php echo e($userAssign->id); ?>" value="0" name="userAssignStatus_<?php echo e($userAssign->assignment_id); ?>_<?php echo e($userAssign->user_id); ?>" <?php if($userAssign->status==0): ?> checked <?php endif; ?>> Applied
+												<input type="radio" class="userAssignStatus" alt="<?php echo e($userAssign->id); ?>" value="1" name="userAssignStatus_<?php echo e($userAssign->assignment_id); ?>_<?php echo e($userAssign->user_id); ?>" <?php if($userAssign->status==1): ?> checked <?php endif; ?>> Pending
+												<input type="radio" class="userAssignStatus" alt="<?php echo e($userAssign->id); ?>" value="2" name="userAssignStatus_<?php echo e($userAssign->assignment_id); ?>_<?php echo e($userAssign->user_id); ?>" <?php if($userAssign->status==2): ?> checked <?php endif; ?>> Written
+												<input type="radio" class="userAssignStatus" alt="<?php echo e($userAssign->id); ?>" value="3" name="userAssignStatus_<?php echo e($userAssign->assignment_id); ?>_<?php echo e($userAssign->user_id); ?>" <?php if($userAssign->status==3): ?> checked <?php endif; ?>> Approved
+												<input type="radio" class="userAssignStatus" alt="<?php echo e($userAssign->id); ?>" value="4" name="userAssignStatus_<?php echo e($userAssign->assignment_id); ?>_<?php echo e($userAssign->user_id); ?>" <?php if($userAssign->status==4): ?> checked <?php endif; ?>> Rejected
+												<input type="radio" class="userAssignStatus" alt="<?php echo e($userAssign->id); ?>" value="5" name="userAssignStatus_<?php echo e($userAssign->assignment_id); ?>_<?php echo e($userAssign->user_id); ?>" <?php if($userAssign->status==5): ?> checked <?php endif; ?>> Complete
+											</td>	
+											<td>
+												<?php echo e(date('M-d-Y',strtotime($userAssign->created_at))); ?>
+
+											</td>	
+										</tr>
+										<?php endforeach; ?>
+									</table>
+								</td>
+								
+								
+							</tr>
+						
+						<?php endforeach; ?>
+						</tbody>
+					</table>
+					<a href="#" class="btn btn-danger delete">Delete</a>
+				</div>
+				<?php //echo $users->render(); ?>
+			</div>
+		</div>
+	</div>
+	<script>
+	/// filter status
+	$('#filterStatus').change(function(){
+		var num = $(this).val();
+		window.location.href = "<?php echo e(url('admin/assignments')); ?>?status="+num;
+	});
+
+		///collapse row
+		$('.expandTr').click(function(){
+		     $(this).toggleClass('minus').parent().parent().nextUntil('.header').slideToggle(0);
+		});
+
+
+		/// change status of assignment
+
+		$('.assignStatus').change(function(){
+			var val = $(this).val();
+			var assignID = $(this).attr('alt');
+			$.ajax({
+				url:'<?php echo e(url("admin/assignments/change-status")); ?>',
+				type:'post',
+				data:{val:val,_token:token,assignID:assignID},
+			});
+		});
+
+
+		/// change status of User's Assigment
+
+		$('.userAssignStatus').change(function(){
+			var cu = $(this);
+			var val = $(this).val();
+			var assignID = $(this).attr('alt');
+			$.ajax({
+				url:'<?php echo e(url("admin/assignments/change-status-user-assignment")); ?>',
+				type:'post',
+				data:{val:val,_token:token,assignID:assignID},
+			});
+			
+		});
+
+
+
+
+		$('#select_all').change(function() {
+		    var checkboxes = $('.select_all');
+		    if($(this).is(':checked')) {
+		        checkboxes.prop('checked', true);
+		    } else {
+		        checkboxes.prop('checked', false);
+		    }
+		});
+		$('.delete').click(function(){
+			var token = '<?php echo e(csrf_token()); ?>';
+			var val = [];
+			$('.select_all:checked').each(function(i){
+	          val[i] = $(this).val();
+	        });
+	        if(val==''){
+	        	return false;
+	        }
+			var c = confirm('Are you sure to Delete ?');
+			if(c==false){
+				return false;
+			}
+			else{
+				$.ajax({
+					type:'post',
+					url:'<?php echo e(url("admin/assignments")); ?>',
+					data:{data:val,_token:token},
+					success:function(x){
+						$('.select_all:checked').parent().parent().remove();
+						$('#select_all').prop('checked',false);
+					}
+				});
+				return false;
+			}
+		});
+	</script>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

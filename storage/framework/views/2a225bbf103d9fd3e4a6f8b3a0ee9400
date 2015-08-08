@@ -1,0 +1,62 @@
+<?php $__env->startSection('content'); ?>
+<?php $link = json_decode($info->img_link) ?>
+<link rel="stylesheet" href="<?php echo e(asset('public/frontend/css/three-quarters.css')); ?>" type="text/css">
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
+	<div class="row">
+		<div class="col-sm-12">
+			<table class="table table-bordered">
+				<tr>
+					<th width="200px">Name</th>
+					<td><?php echo e($info->name); ?></td>
+				</tr>
+				<tr>
+					<th>Description</th>
+					<td><?php echo e($info->description); ?></td>
+				</tr>
+				<tr>
+					<th>Keyword</th>
+					<td><?php echo e($info->keyword); ?></td>
+				</tr>
+				<tr>
+					<th>Link</th>
+					<td>
+					<?php if($link): ?>
+						<table class="table table-bordered">
+						<?php foreach($link as $l): ?>
+							<tr>
+								<td width="150px">
+									<?php if($l->img!=null): ?>
+									<img src="<?php echo e(asset('public/upload/assignments')); ?>/<?php echo e($l->img); ?>" alt="" class="img-responsive">
+									<?php else: ?>
+										<i>No Image</i>
+									<?php endif; ?>
+								</td>
+								<td style="vertical-align: middle;">
+									<p><a href="<?php echo e($l->link); ?>" target="_blank" ><?php echo e($l->link); ?></a></p>
+									<?php if($l->anchor_text): ?>
+									<p>Anchor text: <?php echo e($l->anchor_text); ?></p>
+									<?php endif; ?>
+								</td>
+							</tr>	
+							
+							
+						<?php endforeach; ?>
+						</table>
+					<?php endif; ?>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<?php if(!$applied): ?>
+						<a href="<?php echo e(url('profile/apply-assignment')); ?>/<?php echo e($info->id); ?>" class="btn btn-primary">Apply</a>
+						 <a href="<?php echo e(url('profile/open-assignments')); ?>" class="btn btn-default">Cancel</a>
+						 <?php else: ?>
+						 You have applied this assignment. <a href="<?php echo e(url('profile/my-assignments')); ?>/<?php echo e($applied->id); ?>">Click here</a> to view your assignment
+						 <?php endif; ?>
+					</td>
+				</tr>
+			</table>
+		</div>		
+	</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('frontend.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

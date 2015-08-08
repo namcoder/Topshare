@@ -1,0 +1,4 @@
+Hi
+<br>
+Click the link below to enter new password: <br>
+<a href="<?php echo e(url('reset-password')); ?>/<?php echo e($email); ?>/<?php echo e($key); ?>"><?php echo e(url('reset-password')); ?>/<?php echo e($email); ?>/<?php echo e($key); ?></a>

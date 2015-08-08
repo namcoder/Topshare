@@ -1,0 +1,40 @@
+<?php if(Auth::user()->userblog->status!=0): ?>
+		<!-- display yellow | active star -->
+		<?php for($i=0;$i<Auth::user()->userblog->star;$i++): ?>
+			<?php if($i<20): ?>
+				<img src="<?php echo e(asset('public/frontend/img/star.png')); ?>" alt="">
+			<?php endif; ?>
+		<?php endfor; ?>
+		<!-- display grey | inactive -->
+		<?php 
+			if(Auth::user()->userblog->star > 20){
+				$num_real_star = 20;
+			}
+			else{
+				$num_real_star = Auth::user()->userblog->star;
+			}
+			if($num_real_star<0){
+				$num_real_star = 0;
+			}
+			$num_grey_star = 20-$num_real_star;
+		?>
+		<?php for($i=0;$i<$num_grey_star;$i++): ?>
+			<img src="<?php echo e(asset('public/frontend/img/star_grey.png')); ?>" alt="">
+		<?php endfor; ?>
+		<?php if($full!='false'): ?>
+			<div class="clearfix"></div>
+			<div class="text-left" style="margin-top:20px">
+				<?php 
+					$domainAge = explode(',', Auth::user()->userblog->domain_age);
+				 ?>
+				<ul>
+					<li>Domain age: <strong><?php echo e($domainAge[0]); ?></strong> year <strong><?php echo e($domainAge[1]); ?></strong> months</li>
+					<li>Inbound link: <strong><?php echo e(Auth::user()->userblog->inbound_link); ?></strong></li>
+				</ul>
+			</div>
+			
+		<?php endif; ?>
+	
+<?php else: ?>
+		<i class="text-muted">We are collecting your blog information...</i>
+<?php endif; ?>

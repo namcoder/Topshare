@@ -1,0 +1,112 @@
+<?php $__env->startSection('content'); ?>
+<?php $link = json_decode($info->img_link) ?>
+<link rel="stylesheet" href="<?php echo e(asset('public/frontend/css/three-quarters.css')); ?>" type="text/css">
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
+	<div class="row">
+		<div class="col-sm-12">
+			<table class="table table-bordered">
+				<tr>
+					<th width="200px">Assignment name</th>
+					<td><?php echo e($info->assignment->name); ?></td>
+				</tr>
+				<tr>
+					<th>Description</th>
+					<td><?php echo e($info->assignment->description); ?></td>
+				</tr>
+				<tr>
+					<th>Keyword</th>
+					<td><?php echo e($info->assignment->keyword); ?></td>
+				</tr>
+				<tr>
+					<th>Link</th>
+					<td><a href="<?php echo e($info->link); ?>" target="_blank"><?php echo e($info->link); ?></a></td>
+				</tr>
+				
+				
+				<?php if($info->status==0): ?>
+					<tr>
+						<th>
+							Status
+						</th>
+						<td>
+							<?php echo $__env->make('frontend.profile.assignment-status',['no'=>$info->status], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+						</td>
+					</tr>
+				<?php elseif($info->status==1): ?>
+					<tr>
+						<th>
+							Status
+						</th>
+						<td>
+							<?php echo $__env->make('frontend.profile.assignment-status',['no'=>$info->status], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+						</td>
+					</tr>
+					<tr>	
+						<td colspan="2">
+							<a href="<?php echo e(url('profile/completed-assignment')); ?>/<?php echo e($info->id); ?>" class="btn btn-primary">Complete</a>
+						</td>
+					</tr>
+				<?php elseif($info->status==2): ?>
+					<tr>
+						<th>
+							Status
+						</th>
+						<td>
+							<?php echo $__env->make('frontend.profile.assignment-status',['no'=>$info->status], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+						</td>
+					</tr>
+					<tr>	
+						<td colspan="2">
+							We are reviewing your assignment
+						</td>
+					</tr>
+					<?php elseif($info->status==3): ?>
+					<tr>
+						<th>
+							Status
+						</th>
+						<td>
+							<?php echo $__env->make('frontend.profile.assignment-status',['no'=>$info->status], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+						</td>
+					</tr>
+					<tr>	
+						<td colspan="2">
+							Please wait to get payment
+						</td>
+					</tr>
+					<?php elseif($info->status==4): ?>
+					<tr>
+						<th>
+							Status
+						</th>
+						<td>
+							<?php echo $__env->make('frontend.profile.assignment-status',['no'=>$info->status], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+						</td>
+					</tr>
+					<tr>	
+						<td colspan="2">
+							<strong>Reason:</strong>  <?php echo e($info->reason); ?>
+
+						</td>
+					</tr>
+					<tr>	
+						<td colspan="2">
+							<a href="<?php echo e(url('profile/re-completed-assignment')); ?>/<?php echo e($info->id); ?>" class="btn btn-primary">Re-Complete</a>
+						</td>
+					</tr>
+					<?php elseif($info->status==5): ?>
+					<tr>
+						<th>
+							Status
+						</th>
+						<td>
+							<?php echo $__env->make('frontend.profile.assignment-status',['no'=>$info->status], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+						</td>
+					</tr>
+				<?php endif; ?>
+				
+			</table>
+		</div>		
+	</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('frontend.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,17 @@
+<?php $__env->startSection('content'); ?>
+<link rel="stylesheet" href="<?php echo e(asset('public/frontend/css/three-quarters.css')); ?>" type="text/css">
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
+	<div class="row">
+		<div class="col-sm-12">
+			
+					<h3>List Assignments</h3>
+					<ul class="list-unstyled">
+					<?php foreach($lists as $l): ?>
+						<li><a href="<?php echo e(url('profile/open-assignments')); ?>/<?php echo e($l->id); ?>"><?php echo e($l->name); ?></a> <?php if(in_array($l->id,$userAssignment)): ?> <span class="label label-success">Applied</span> <?php endif; ?></li>
+					<?php endforeach; ?>
+					</ul>
+					<!-- <p class="alert alert-warning">Not have any Assignment with your Blog language and your Blog categories</p> -->
+		</div>		
+	</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('frontend.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

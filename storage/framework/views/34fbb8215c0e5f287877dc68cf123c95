@@ -1,0 +1,21 @@
+<?php $__env->startSection('content'); ?>
+<link rel="stylesheet" href="<?php echo e(asset('public/frontend/css/three-quarters.css')); ?>" type="text/css">
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
+	<div class="row">
+		<div class="col-sm-12">
+		<?php if(!Session::has('ok')): ?>
+			<form method="post">
+			  <div class="form-group">
+			    <label for="">Link Assignment</label>
+			    <input type="text" class="form-control" name="link" id="" placeholder="Enter link">
+			  </div>
+			  <input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>">
+			  <button type="submit" class="btn btn-default">Submit</button>
+			</form>
+		<?php else: ?>
+			<p class="alert alert-success">Your link has been sent. We will review your link and email you soon. <a href="<?php echo e(url('profile/my-assignments')); ?>/<?php echo e($info->id); ?>">Click here</a> to go to your assignment</p>
+		<?php endif; ?>
+		</div>		
+	</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('frontend.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

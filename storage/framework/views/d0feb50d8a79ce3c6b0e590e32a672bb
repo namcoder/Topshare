@@ -1,0 +1,23 @@
+<?php $__env->startSection('title'); ?>
+	Translate
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+
+	<div class="col-lg-6">
+		<div class="main-box">
+			<header class="main-box-header clearfix">
+				<h2>Select a file to translate</h2>
+			</header>
+			
+			<div class="main-box-body clearfix">
+				<ul>
+					<?php foreach($lists as $list): ?>
+					<li><a href="<?php echo e(url('admin/languages/translate')); ?>/<?php echo e($code); ?>/<?php echo e($list); ?>"><?php echo e($list); ?></a></li>
+					<?php endforeach; ?>
+				</ul>				
+			</div>
+		</div>
+	</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

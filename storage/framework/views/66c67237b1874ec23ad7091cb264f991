@@ -1,0 +1,84 @@
+<?php $__env->startSection('content'); ?>
+	<div class="row">
+		<div class="col-sm-12">
+			<?php echo e(trans('profile.Welcome')); ?> <strong><?php echo e(Auth::user()->name); ?></strong> | <?php echo e(Auth::user()->userblog->blogname); ?> | <div class="result-evaluation" style="display: inline-block;"><i>Loading...</i></div>
+		</div>
+	</div>
+	<div class="row marginTop">
+		<div class="col-sm-3">
+			<div class="btn-group-vertical" role="group" aria-label="Vertical button group">
+			      <a href="<?php echo e(url('/')); ?>" class="btn btn-default"><?php echo e(trans('profile.Home')); ?></a>
+			      <a href="<?php echo e(url('profile/my-assignments')); ?>" class="btn btn-default"><?php echo e(trans('profile.My_Assignments')); ?></a>
+			    
+			      <a href="<?php echo e(url('profile/open-assignments')); ?>" class="btn btn-default"><?php echo e(trans('profile.Open_Assignments')); ?></a>
+			      <a href="<?php echo e(url('profile/my-profile')); ?>" class="btn btn-default"><?php echo e(trans('profile.My_Profile')); ?></a>
+			      <a href="<?php echo e(url('profile/account-number')); ?>" class="btn btn-default">Account number</a>
+			      <a href="<?php echo e(url('profile/logout')); ?>" class="btn btn-default"><?php echo e(trans('profile.Logout')); ?></a>
+			  
+			    </div>
+		</div>
+		<div class="col-sm-9">
+			<p class="text-center">
+				<h3><?php echo e(trans('profile.Home')); ?></h3>
+				<span class="row">
+					<div class="col-sm-6">
+						<h4><?php echo e(trans('profile.Assignments')); ?></h4>
+						<table class="table">
+							<tr>
+								<td><?php echo e(trans('profile.Applied')); ?></td>
+								<td><?php if(isset($status['applied'])): ?> <strong><?php echo e(count($status['applied'])); ?> </strong> <?php else: ?> 0 <?php endif; ?></td>
+							</tr>
+							<tr>
+								<td><?php echo e(trans('profile.Pending')); ?></td>
+								<td><?php if(isset($status['pending'])): ?> <strong><?php echo e(count($status['pending'])); ?> </strong> <?php else: ?> 0 <?php endif; ?></td>
+							</tr>
+							<tr>
+								<td><?php echo e(trans('profile.Written')); ?></td>
+								<td><?php if(isset($status['written'])): ?> <strong><?php echo e(count($status['written'])); ?> </strong> <?php else: ?> 0 <?php endif; ?></td>
+							</tr>
+							<tr>
+								<td><?php echo e(trans('profile.Approved')); ?></td>
+								<td><?php if(isset($status['approved'])): ?> <strong><?php echo e(count($status['approved'])); ?> </strong> <?php else: ?> 0 <?php endif; ?></td>
+							</tr>
+							<tr>
+								<td><?php echo e(trans('profile.Rejected')); ?></td>
+								<td><?php if(isset($status['rejected'])): ?> <strong><?php echo e(count($status['rejected'])); ?> </strong> <?php else: ?> 0 <?php endif; ?></td>
+							</tr>
+							<tr>
+								<td><?php echo e(trans('profile.Complete')); ?></td>
+								<td><?php if(isset($status['complete'])): ?> <strong><?php echo e(count($status['complete'])); ?> </strong> <?php else: ?> 0 <?php endif; ?></td>
+							</tr>
+						</table>
+					</div>
+					<div class="col-sm-6">
+						<h4><?php echo e(trans('profile.Payouts')); ?></h4>
+						<table class="table">
+							<tr>
+								<td><?php echo e(trans('profile.Previous_month')); ?></td>
+								<td>#</td>
+							</tr>
+							<tr>
+								<td><?php echo e(trans('profile.This_month')); ?></td>
+								<td>#</td>
+							</tr>
+							<tr>
+								<td><?php echo e(trans('profile.Upcoming_month')); ?></td>
+								<td>#</td>
+							</tr>
+							<tr>
+								<td><?php echo e(trans('profile.All_time')); ?></td>
+								<td>#</td>
+							</tr>
+						</table>
+					</div>
+				</span>
+			</p>
+		</div>
+	</div>
+	<script>
+		var full = false;
+		var url_evaluation = '<?php echo e(url("ajax-blog-evaluation")); ?>';
+	</script>
+	<script src="<?php echo e(asset('public/frontend/js/blogevaluation.js')); ?>"></script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('frontend.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

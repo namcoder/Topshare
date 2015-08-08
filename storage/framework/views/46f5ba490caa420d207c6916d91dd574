@@ -1,0 +1,72 @@
+<div class="col-sm-12" style="margin-bottom:10px">
+	<?php for($i=0;$i<$data['star'];$i++): ?>
+		<?php if($i<5): ?>
+			<img src="<?php echo e(asset('public/frontend/img/star.png')); ?>" alt="">
+		<?php endif; ?>
+		
+	<?php endfor; ?>
+	<?php 
+			if($data['star'] > 5){
+				$num_real_star = 5;
+			}
+			else{
+				$num_real_star = $data['star'];
+			}
+			if($num_real_star<0){
+				$num_real_star = 0;
+			}
+			$num_grey_star = 5-$num_real_star;
+			
+	?>
+	
+	<?php for($i=0;$i<$num_grey_star;$i++): ?>
+		<img src="<?php echo e(asset('public/frontend/img/star_grey.png')); ?>" alt="">
+	<?php endfor; ?>
+</div>
+<div class="col-sm-12">
+	<ul>
+		<?php if($data['domain_age']==0): ?>
+			<li>Domain age: <strong>Unknown</strong></li>
+		<?php else: ?>
+			<?php if($data['domain_age']>1): ?>
+				<li>Domain age: <strong><?php echo e($data['domain_age']); ?> </strong> years</li>
+			<?php else: ?>
+				<li>Domain age: <strong><?php echo e($data['domain_age']); ?> </strong> year</li>
+			<?php endif; ?>
+		<?php endif; ?>
+		
+		
+		<li>You have selected: <strong><?php echo e($data['num_category']); ?></strong> category</li>
+		<?php if($data['domain_type']==0): ?>
+			<li>You have used <strong>personal</strong> domain</li>
+		<?php else: ?>
+			<li>You have used <strong>blogspot</strong> domain</li>
+		<?php endif; ?>
+		<li>Number of visitors per month: <strong><?php echo e($data['num_of_visitor']); ?></strong></li>
+		<li>Number of inbound links: <strong><?php echo e($data['num_of_backlink']); ?></strong></li>
+		<li>Page rank: <strong><?php echo e($data['num_of_page_rank']); ?></strong></li>
+		<li>Number of domain in your domain IP: <strong><?php echo e($data['num_of_domain_on_IP']); ?></strong></li>
+		<?php if($data['outboundBiger']==1): ?>
+			<li>Your domain have outbound link <strong>more</strong> than inbound link in</li>
+		<?php endif; ?>
+	</ul>
+	<script>
+		/// append value to curren User information form
+		$(document).ready(function(){
+			var page_rank = "<?php echo e(trim($data['num_of_page_rank'])); ?>";
+			$('#evaluate').val('1');
+			$('#domain_age').val('<?php echo e($data["domain_age"]); ?>');
+			$('#domain_type').val('<?php echo e($data["domain_type"]); ?>');
+			$('#blog_categories').val('<?php echo e($data["category"]); ?>');
+			$('#visitor').val('<?php echo e($data["num_of_visitor"]); ?>');
+			$('#inbound_link').val('<?php echo e($data["num_of_backlink"]); ?>');
+			$('#page_rank').val(page_rank);
+			$('#domain_in_ip').val('<?php echo e($data["num_of_domain_on_IP"]); ?>');
+			$('#outbound_link_more').val('<?php echo e($data["outboundBiger"]); ?>');
+			$('#blogname_save').val('<?php echo e($data["blogname"]); ?>');
+			$('#domain_save').val('<?php echo e($data["domain"]); ?>');
+			$('#star').val('<?php echo e($data["star"]); ?>');
+			$('#bloglang').val('<?php echo e($data["bloglang"]); ?>');
+		});
+	</script>
+</div>

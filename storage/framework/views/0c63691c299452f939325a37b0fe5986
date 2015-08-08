@@ -1,0 +1,13 @@
+<?php if($no==0): ?>
+	<span class="label label-warning">Applied</span>
+<?php elseif($no==1): ?>
+	<span class="label label-success">Pending</span>
+<?php elseif($no==2): ?>
+<span class="label label-info ">Written</span>
+<?php elseif($no==3): ?>
+<span class="label label-success ">Approved</span>
+<?php elseif($no==4): ?>
+<span class="label label-danger ">Rejected</span>
+<?php elseif($no==5): ?>
+<span class="label label-success ">Complete</span>
+<?php endif; ?>

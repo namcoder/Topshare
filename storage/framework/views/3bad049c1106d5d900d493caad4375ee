@@ -1,0 +1,43 @@
+<?php $__env->startSection('content'); ?>
+	<div class="row">
+		<div class="col-sm-12" >
+			<form style="margin:0 auto; width:50%" method="post">
+			  <div class="form-group">
+			    <label for=""><?php echo e(trans('home.email')); ?></label>
+			    <input type="text" class="form-control" id="" placeholder="<?php echo e(trans('home.enter_email')); ?>" name="email" autofocus>
+			  </div>
+			  <div class="form-group">
+			    <label for=""><?php echo e(trans('home.password')); ?></label>
+			    <input type="password" class="form-control" id="" placeholder="<?php echo e(trans('home.password')); ?>" name="password" >
+			  </div>
+			  <p class="text text-danger error hide"><?php echo e(trans('home.The_Username_or_Password_does_not_match')); ?></p>
+			  <button type="submit" class="btn btn-primary col-sm-12 lgHeightBtn"><?php echo e(trans('home.login')); ?></button>
+			  <p><a href="<?php echo e(url('forgot-password')); ?>"><?php echo e(trans('home.forgot_password')); ?></a></p>
+			  <p>
+			 	 <a href="<?php echo e(url('sign-up')); ?>" class="btn btn-success col-sm-12"><?php echo e(trans('home.new_blogger_register_here')); ?></a>
+			  </p>
+			</form>
+		</div>
+	</div>
+	<script>
+	$('form').submit(function(){
+		var data = $(this).serialize();
+		$('.error').addClass('hide');
+		$.ajax({
+			type:'post',
+			url:'<?php echo e(url("login")); ?>',
+			data:{data:data,_token:token},
+			success:function(x){
+				if(x=='false'){
+					$('.error').removeClass('hide');
+				}else{
+					window.location.href='<?php echo e(url("profile")); ?>';
+				}
+			}
+		});
+		return false;
+	});
+	
+	</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('frontend.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

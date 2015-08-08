@@ -1,0 +1,93 @@
+
+
+<?php $__env->startSection('content'); ?>
+	<div class="row">
+		<div class="col-sm-12">
+			<?php echo e(trans('profile.Welcome')); ?> <strong><?php echo e(Auth::user()->name); ?></strong> | <?php echo e(Auth::user()->userblog->blogname); ?> |  
+			<?php for($i=0;$i<Auth::user()->userblog->star;$i++): ?>
+				<?php if($i<5): ?>
+					<img src="<?php echo e(asset('public/frontend/img/star.png')); ?>" alt="">
+				<?php endif; ?>
+				
+			<?php endfor; ?>
+			<?php 
+					if(Auth::user()->userblog->star > 5){
+						$num_real_star = 5;
+					}
+					else{
+						$num_real_star = Auth::user()->userblog->star;
+					}
+					if($num_real_star<0){
+						$num_real_star = 0;
+					}
+					$num_grey_star = 5-$num_real_star;
+			?>
+			<?php for($i=0;$i<$num_grey_star;$i++): ?>
+				<img src="<?php echo e(asset('public/frontend/img/star_grey.png')); ?>" alt="">
+			<?php endfor; ?>
+		</div>
+	</div>
+	<div class="row marginTop">
+		<div class="col-sm-3">
+			<div class="btn-group-vertical" role="group" aria-label="Vertical button group">
+			      <a href="<?php echo e(url('/')); ?>" class="btn btn-default"><?php echo e(trans('profile.Home')); ?></a>
+			      <a href="#" class="btn btn-default"><?php echo e(trans('profile.My_Assignments')); ?></a>
+			    
+			      <a href="#" class="btn btn-default"><?php echo e(trans('profile.Open_Assignments')); ?></a>
+			      <a href="<?php echo e(url('profile/my-profile')); ?>" class="btn btn-default"><?php echo e(trans('profile.My_Profile')); ?></a>
+			      <a href="<?php echo e(url('profile/logout')); ?>" class="btn btn-default"><?php echo e(trans('profile.Logout')); ?></a>
+			  
+			    </div>
+		</div>
+		<div class="col-sm-9">
+			<p class="text-center">
+				<h3><?php echo e(trans('profile.Home')); ?></h3>
+				<span class="row">
+					<div class="col-sm-6">
+						<h4><?php echo e(trans('profile.Assignments')); ?></h4>
+						<table class="table">
+							<tr>
+								<td><?php echo e(trans('profile.Applied')); ?></td>
+								<td>#</td>
+							</tr>
+							<tr>
+								<td><?php echo e(trans('profile.Assigned')); ?></td>
+								<td>#</td>
+							</tr>
+							<tr>
+								<td><?php echo e(trans('profile.In_process')); ?></td>
+								<td>#</td>
+							</tr>
+							<tr>
+								<td><?php echo e(trans('profile.Approved')); ?></td>
+								<td>#</td>
+							</tr>
+						</table>
+					</div>
+					<div class="col-sm-6">
+						<h4><?php echo e(trans('profile.Payouts')); ?></h4>
+						<table class="table">
+							<tr>
+								<td><?php echo e(trans('profile.Previous_month')); ?></td>
+								<td>#</td>
+							</tr>
+							<tr>
+								<td><?php echo e(trans('profile.This_month')); ?></td>
+								<td>#</td>
+							</tr>
+							<tr>
+								<td><?php echo e(trans('profile.Upcoming_month')); ?></td>
+								<td>#</td>
+							</tr>
+							<tr>
+								<td><?php echo e(trans('profile.All_time')); ?></td>
+								<td>#</td>
+							</tr>
+						</table>
+					</div>
+				</span>
+			</p>
+		</div>
+	</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('frontend.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,169 @@
+
+
+<?php $__env->startSection('title'); ?>
+	Create Assignment
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<style>
+	.imgpreview{
+		width:80px;
+		margin-top: 15px;
+		margin-bottom: 10px;
+		  margin-right: 20px;
+		/*height: 80px*/
+		-webkit-box-shadow: -1px 1px 14px -1px rgba(0,0,0,0.5);
+		-moz-box-shadow: -1px 1px 14px -1px rgba(0,0,0,0.5);
+		box-shadow: -1px 1px 14px -1px rgba(0,0,0,0.5);
+	}
+</style>
+<div class="contentAppend hide">
+	<div class="row" style="margin-bottom:10px">
+		<div class="col-sm-offset-1 col-sm-11 form-inline">
+			<div class="form-group">
+			    <input type="file" class="hide imglink" accept="image/*" name="imgforlink[]">
+				<a href="#" class="btn btn-default clickImg" onclick="$(this).prev().click();return false;"><img src="" alt="" class="hide imgpreview"><i class="fa fa-picture-o"></i></a> 
+			</div>
+			<input type="text" style="width:60%" placeholder="URL" class="form-control"  name="link[]" placeholder="">
+			<a href="#" class="btn btn-danger minusLink"><i class="fa fa-minus"></i></a> 
+		</div>
+	</div>
+</div>
+	<div class="col-lg-6">
+		<div class="main-box">
+			<header class="main-box-header clearfix">
+				<h2>Create Assignment</h2>
+			</header>
+			
+			<div class="main-box-body clearfix">
+				<form role="form" method="post" enctype="multipart/form-data">
+					<div class="form-group">
+						<label>Customer</label>
+						<select class="form-control" name="customer" required>
+							<option value="">Select Customer</option>
+							<option value="1">Customer 1</option>
+							<option value="2">Customer 2</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>Language</label>
+						<select class="form-control" name="assignmentlang" required id="bloglang_reg">
+							<option value="">Select Language</option>
+							<?php foreach($langs as $l): ?>
+								<option value="<?php echo e($l->id); ?>"><?php echo e($l->name); ?></option>
+							<?php endforeach; ?>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>Categories</label>
+						<div class="row changeCat"></div>
+						<div class="row hide errorcat">
+							<p class="alert alert-danger">Please select category</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="">Name</label>
+						<input type="text" class="form-control"  name="name" placeholder=""  required>
+					</div>
+					<div class="form-group">
+						<label for="">Description</label>
+						<input type="text" class="form-control"  name="description" placeholder="" required>
+					</div>
+					<div class="form-group">
+						<label for="">Keyword</label>
+						<input type="text" class="form-control"  name="keyword" placeholder="" required>
+						<span id="helpBlock" class="help-block">Separated by comma</span>
+					</div>
+					
+					<div class="form-group">
+						<label for="">Link</label>
+						<div class="row appendLink">
+							
+						</div>
+						
+					</div>
+					<div class="form-group">
+						<a href="#" class="btn btn-success addLink"><i class="fa fa-plus"></i></a>
+					</div>
+					<div class="form-group">
+						<input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>">
+						<button type="submit" class="btn btn-primary">Save</button>
+						<a href="<?php echo e(url('admin/assignments')); ?>" class="btn btn-default">Cancel</a>
+					</div>
+				</form>
+				<script>
+				/// change Cat language by select 
+				$('#bloglang_reg').change(function(){
+					var id = $(this).val();
+					$.ajax({
+						type:'get',
+						url:'<?php echo e(url("ajax-get-categories")); ?>',
+						data:{id:id},
+						success:function(x){
+							$('.changeCat').html(x);
+						}
+					});
+				});
+				var listFile = [];
+				$(document).on('change','.imglink',function(event){
+					var nextImg = $(this).next().find('img');
+					var thisVal = $(this).val();
+					var file = this.files[0];
+					var reader = new FileReader();
+					reader.onload = function (e) {
+					           var img64 = e.target.result;        	
+					           nextImg.removeClass('hide');
+					           nextImg.parent().removeClass('btn btn-default');
+					           nextImg.next().remove();
+					           nextImg.attr('src',img64);
+					        }        
+					        reader.readAsDataURL(file);
+					listFile.push(event.target.files);
+				});
+				
+
+				/// click add more link
+				$('.addLink').click(function(){
+					var contentAppend = $('.contentAppend').html();
+					$('.appendLink').append(contentAppend);
+					return false;
+				});
+
+				/// click remove a link
+				$(document).on('click','.minusLink',function(){
+					$(this).parent().parent().remove();
+					return false;
+				});
+
+				/// submit form
+				$("form").validate({
+					errorClass:'text-danger',
+					errorPlacement: function(error, element) {
+						element.parent().addClass('has-error') ;
+						error.insertAfter(element);
+					},
+					success: function(label) {
+					   label.parent().removeClass('has-error') ;
+					   label.remove();
+					 },
+					 submitHandler: function(form){
+					 	var select_cat = $('.category:checked').length;
+					 	if(select_cat==0){
+		 			 		$('.errorcat').removeClass('hide');
+		 			 		return false;
+		 			 	}
+		 			 	else{
+		 			 		$('.errorcat').addClass('hide');
+		 			 	}
+					 	form.submit();
+					 }
+				});
+
+				
+				</script>
+			</div>
+		</div>
+	</div>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

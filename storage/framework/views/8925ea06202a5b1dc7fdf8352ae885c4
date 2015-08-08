@@ -1,0 +1,260 @@
+
+
+<?php $__env->startSection('content'); ?>
+<?php 
+	$userCat = json_decode(Auth::user()->userblog->blog_categories);
+ ?>
+<link rel="stylesheet" href="<?php echo e(asset('public/frontend/css/three-quarters.css')); ?>" type="text/css">
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
+	<div class="row">
+		<form id="userinfo">
+			<div class="col-sm-6">
+				<p class="alert alert-success saveok hide"><?php echo e(trans('profile.Updated')); ?></p>
+			  <div class="form-group">
+			    <label class="control-label" for=""><?php echo e(trans('profile.Email')); ?></label>
+			    <input type="email" class="form-control" id="email" name="email"  disabled value="<?php echo e(Auth::user()->email); ?>">
+			  </div>
+			  <div class="form-group">
+			    <label class="control-label" for=""><?php echo e(trans('profile.New_password')); ?></label>
+			    <!-- <span id="helpBlock" class="help-block">Keep blank to if you dont want to change</span> -->
+			    <input type="password" class="form-control" id="" name="password" >
+			  </div>
+			  <div class="form-group">
+			    <label class="control-label" for=""><?php echo e(trans('profile.Name')); ?></label>
+			    <input type="text" class="form-control" id="" name="name" required value="<?php echo e(Auth::user()->name); ?>">
+			  </div>
+			  <div class="form-group">
+			    <label class="control-label" for=""><?php echo e(trans('profile.Address')); ?></label>
+			    <input type="text" class="form-control" id="" name="address" required value="<?php echo e(Auth::user()->address); ?>">
+			  </div>
+			  <div class="row">
+			  	<div class="col-sm-6">
+			  		<div class="form-group">
+			  		  <label class="control-label" for=""><?php echo e(trans('profile.Zipcode')); ?></label>
+			  		  <input type="text" class="form-control" id="" name="zipcode" required value="<?php echo e(Auth::user()->zipcode); ?>">
+			  		</div>
+			  	</div>
+			  	<div class="col-sm-6">
+			  		<div class="form-group">
+			  		  <label class="control-label" for=""><?php echo e(trans('profile.City')); ?></label>
+			  		  <input type="text" class="form-control" id="" name="city" required value="<?php echo e(Auth::user()->city); ?>">
+			  		</div>
+			  	</div>
+			  </div>
+			  <div class="form-group">
+			    <label class="control-label" for=""><?php echo e(trans('profile.Phone_number')); ?></label>
+			    <input type="text" class="form-control" id="" name="phone" required value="<?php echo e(Auth::user()->phone); ?>">
+			  </div>
+			  <div class="form-group">
+			    <label class="control-label" for=""><?php echo e(trans('profile.CPR')); ?></label>
+			    <input type="text" class="form-control" id="" name="cpr" required value="<?php echo e(Auth::user()->cpr); ?>">
+			  </div>
+			  <button type="submit" class="btn btn-primary col-sm-12"><?php echo e(trans('profile.update_information')); ?></button>
+			</div>
+		</form>
+		<div class="col-sm-6">
+		<form id="evaluate">
+			<div class="form-group">
+		    	<label class="control-label" for=""><?php echo e(trans('profile.Blog_name')); ?></label>
+		    	<input type="text" class="form-control" id="blogname" name="blogname" required value="<?php echo e(Auth::user()->userblog->blogname); ?>">
+		 	</div>
+		 	<div class="form-group">
+		    	<label class="control-label" for=""><?php echo e(trans('profile.Blog_URL')); ?></label>
+		    	<input type="text" class="form-control" name="blogurl" id="blogurl" disabled value="<?php echo e(Auth::user()->userblog->domain); ?>">
+		 	</div>
+	 	 	<div class="form-group">
+	 	    	<label class="control-label" for=""><?php echo e(trans('home.Blog_Language')); ?></label>
+	 	    	<select name="bloglang" id="bloglang_reg" class="form-control" required>
+	 		    	<option value=""><?php echo e(trans('home.Select_language')); ?></option>
+	 		    	<?php foreach($langs as $l): ?>
+	 		    		<option value="<?php echo e($l->id); ?>" <?php if(Auth::user()->userblog->bloglang==$l->id): ?> selected <?php endif; ?>><?php echo e($l->name); ?></option>
+	 		    	<?php endforeach; ?>
+	 	    	</select>
+	 	 	</div>
+		 	<div class="form-group">
+		 	  <div class="col-sm-12">
+		 	   	<div class="checkbox">
+		 	   	  <div class="row changeCat">
+		 	   	  	<?php foreach($cats as $cat): ?>
+		 	   	  		<div class="col-sm-5">
+		 	   	  			<label class="control-label">
+		 	   	  			  <input type="checkbox" class="category" name="category[]" value="<?php echo e($cat->id); ?>" <?php if(in_array($cat->id,$userCat)): ?> checked <?php endif; ?>> <?php echo e($cat->name); ?>
+
+		 	   	  			</label>
+		 	   	  		</div>
+		 	   	  	<?php endforeach; ?>
+		 	   	  </div>
+		 	   	  <div class="row">
+		 	   	  	<div class="col-sm-12">
+			 	   	  	<div class="alert alert-danger error_cate hide"><?php echo e(trans('profile.Please_select_Blog_category')); ?></div>
+		 	   	  	</div>
+		 	   	  </div>
+		 	   	</div>
+		 	  </div>
+		 	</div>
+			<button type="submit" class="btn btn-success col-sm-12"><?php echo e(trans('profile.update_blog_information')); ?></button>
+		</form> 
+		<div class="row currentStar">
+			<div class="col-sm-12" style="margin-top:30px;margin-bottom:10px">
+				<?php for($i=0;$i<Auth::user()->userblog->star;$i++): ?>
+					<?php if($i<5): ?>
+						<img src="<?php echo e(asset('public/frontend/img/star.png')); ?>" alt="">
+					<?php endif; ?>
+					
+				<?php endfor; ?>
+				<?php 
+						if(Auth::user()->userblog->star > 5){
+							$num_real_star = 5;
+						}
+						else{
+							$num_real_star = Auth::user()->userblog->star;
+						}
+						if($num_real_star<0){
+							$num_real_star = 0;
+						}
+						$num_grey_star = 5-$num_real_star;
+				?>
+				<?php for($i=0;$i<$num_grey_star;$i++): ?>
+					<img src="<?php echo e(asset('public/frontend/img/star_grey.png')); ?>" alt="">
+				<?php endfor; ?>
+			</div>
+			<div class="col-sm-12">
+				<ul>
+					<?php if(Auth::user()->userblog->domain_age==0): ?>
+						<li>Domain age: <strong>Unknown</strong></li>
+					<?php else: ?>
+						<?php if(Auth::user()->userblog->domain_age>1): ?>
+							<li>Domain age: <strong><?php echo e(Auth::user()->userblog->domain_age); ?> </strong> years</li>
+						<?php else: ?>
+							<li>Domain age: <strong><?php echo e(Auth::user()->userblog->domain_age); ?> </strong> year</li>
+						<?php endif; ?>
+					<?php endif; ?>
+					
+					
+					<li>You have selected: <strong><?php echo e(count(Auth::user()->userblog->blog_categories)); ?></strong> category</li>
+					<?php if(Auth::user()->userblog->domain_type==0): ?>
+						<li>You have used <strong>personal</strong> domain</li>
+					<?php else: ?>
+						<li>You have used <strong>blogspot</strong> domain</li>
+					<?php endif; ?>
+					<li>Number of visitors per month: <strong><?php echo e(Auth::user()->userblog->visitor); ?></strong></li>
+					<li>Number of inbound links: <strong><?php echo e(Auth::user()->userblog->inbound_link); ?></strong></li>
+					<li>Page rank: <strong><?php echo e(Auth::user()->userblog->page_rank); ?></strong></li>
+					<li>Number of domain in your domain IP: <strong><?php echo e(Auth::user()->userblog->domain_in_ip); ?></strong></li>
+					<?php if(Auth::user()->userblog->outbound_link_more==1): ?>
+						<li>Your domain have outbound link <strong>more</strong> than inbound link in</li>
+					<?php endif; ?>
+				</ul>
+				
+			</div>
+		</div>
+		 <div class="row">
+		 	<div class="col-sm-2">
+		 		<div class="row">
+		 			<div class="col-sm-4 text-center marginTop">
+		 				<div class="three-quarters-loader loading hide"></div>
+		 			</div>
+		 		</div>
+		 	</div>
+		 	<div class="col-sm-12 result" style="margin-top:30px"></div>
+		 </div>	
+		</div>
+		
+		
+		
+	</div>
+	<script>
+	/// change Cat language by select 
+	$('#bloglang_reg').change(function(){
+		var id = $(this).val();
+		$.ajax({
+			type:'get',
+			url:'<?php echo e(url("ajax-get-categories")); ?>',
+			data:{id:id},
+			success:function(x){
+				$('.changeCat').html(x);
+			}
+		});
+	});
+	$("#userinfo").validate({
+			errorClass:'text-danger',
+			errorPlacement: function(error, element) {
+				element.parent().addClass('has-error') ;
+				error.insertAfter(element);
+			},
+			success: function(label) {
+			   label.parent().removeClass('has-error') ;
+			   label.remove();
+			 },
+			submitHandler: function(form){
+				///////////// SUBMIT when all done and OK
+				var all_data = $("#userinfo").serialize();
+
+				$.ajax({
+					type:'post',
+					url:'<?php echo e(url("profile/my-profile")); ?>',
+					data:{data:all_data,_token:token},
+					success:function(x){
+						// $('#userinfo').hide();
+						$('.saveok').removeClass('hide');
+					}
+				});
+			}
+		});
+
+	/////// UPDATE BLOG
+
+	$("#evaluate").validate({
+		errorClass:'text-danger',
+		errorPlacement: function(error, element) {
+			element.parent().addClass('has-error') ;
+			error.insertAfter(element);
+		},
+		success: function(label) {
+		   label.parent().removeClass('has-error') ;
+		   label.remove();
+		 },
+		 submitHandler: function(form){
+		 	
+	 		var select_cat = $('.category:checked').length;
+	 	 	if(select_cat==0){
+	 	 		$('.error_cate').removeClass('hide');
+	 			return false;
+	 	 	}
+	 	 	else{
+	 	 		$('.error_cate').addClass('hide');
+	 	 	}
+		 	var val = [];
+		 	$('.category:checked').each(function(i){
+		 		val[i] = $(this).val();
+		 	});
+		 	$('.loading').removeClass('hide');
+		 	$('.currentStar').remove();
+		 	var domain = $('#blogurl').val();
+		 	var blogname = $('#blogname').val();
+		 	var bloglang = $('#bloglang_reg').val();
+		 	$('.result').html('');
+			$.ajax({
+				type:'post',
+				url:'<?php echo e(url("profile/update-blog-domain")); ?>',
+				data:{bloglang:bloglang,blogname:blogname,domain:domain,category:val,_token:token},
+				success:function(x){
+					$('.loading').addClass('hide');
+					if(x=='error_cantget'){
+						$('.result').html('<div class="text-danger col-sm-12"><?php echo e(trans("profile.Cannot_get_information_from_this_domain")); ?></div>');
+					}
+					else{
+						$('.result').html(x);
+					}
+				}
+			});		 	
+		 }
+		
+	});
+
+
+	</script>
+
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('frontend.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

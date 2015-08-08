@@ -1,0 +1,27 @@
+
+
+<?php $__env->startSection('title'); ?>
+	Dashboard
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+	<a href="<?php echo e(url('admin/users/list')); ?>">
+		<div class="col-lg-3 col-sm-6 col-xs-12">
+			<div class="main-box infographic-box colored red-bg">
+				<i class="fa fa-user"></i>
+				<span class="headline">Users</span>
+				<span class="value"><?php echo e($num_users); ?></span>
+			</div>
+		</div>
+	</a>
+	<a href="<?php echo e(url('admin/blog-categories')); ?>">
+		<div class="col-lg-3 col-sm-6 col-xs-12">
+			<div class="main-box infographic-box colored green-bg">
+				<i class="fa fa-list"></i>
+				<span class="headline">Categories</span>
+				<span class="value"><?php echo e($cats); ?></span>
+			</div>
+		</div>
+	</a>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

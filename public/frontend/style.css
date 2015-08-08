@@ -1,0 +1,36 @@
+.header{
+	margin-bottom: 20px;
+}
+.tempBgBox{
+	background: #ccc;
+	padding: 30px 0;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+.twoButLg{
+	margin-top: 40px
+}
+.twoButLg a{
+	padding: 30px 10px;
+	text-transform: uppercase;
+	font-weight: bold;
+	font-size: 20px;
+	margin-top: 10px
+}
+.lgHeightBtn{
+	padding: 20px 10px;
+	text-transform: uppercase;
+	font-weight: bold;
+	font-size: 20px;
+	margin-top: 10px
+}
+.btn{
+	font-weight: bold;
+	text-transform: uppercase;
+}
+.marginBot{
+	margin-bottom: 50px;
+}
+.marginTop{
+	margin-top: 20px;
+}
